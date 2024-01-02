@@ -383,6 +383,11 @@ const resetPassword = async(req,res)=>{
     }
 }
 
+let getUserById = async(req,res)=>{
+    const { username } = req.params
+    console.log(username)
+}
+
 export default {
     register,
     login,
@@ -390,5 +395,6 @@ export default {
     updateUser,
     
     createResetSession,
-    resetPassword
+    resetPassword,
+    getUserById
 }
