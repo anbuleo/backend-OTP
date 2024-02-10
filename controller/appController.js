@@ -82,14 +82,14 @@ const register = async(req,res)=>{
             res.status(201).send({
                 message : "the user created sucess"
             })
-            return
-
+           
             }else{
                 res.status(400).send({
                     message: `${user.email} is already exist`
                 })
+                
             }
-            return
+            
 
         }else {
             res.status(400).send({
@@ -156,9 +156,10 @@ const login = async(req,res)=>{
 
 const getUser = async(req,res)=>{
 
-
+    console.log(req.params)
     
-    const { username } = req.params;
+    const {username} = req.params;
+    console.log(username)
 
     try {
         // let id = Number(req.params.id)
@@ -348,8 +349,9 @@ const resetPassword = async(req,res)=>{
         let {username} = req.body
        
         
-        try {
-            let user = await userModel.findOne({username})
+       
+            let user = await userModel.findOne({username:req.body.username})
+            // console.log(user)
             if(user){
                 let {username ,password} = req.body
                 password= await auth.hashPassword(req.body.password)
@@ -361,22 +363,13 @@ const resetPassword = async(req,res)=>{
                     message : "Record Updated",
                     user,
                 })
-            }else{
-                res.status(404).send({
-                    message:'invalid user'
-                })
+                return
             }
             
-        } catch (error) {
-            console.log(error)
-            res.status(500).send({
-                message:"error occured",
-                error
-            })
-        }
+       
     } catch (error) {
         console.log(error)
-        res.status(401).send({
+        res.status(500).send({
             message:"error occured",
             error
         })
